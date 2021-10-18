@@ -1,0 +1,14 @@
+FROM ubuntu:latest
+
+RUN export GIT_SSL_NO_VERIFY=1
+
+run apt update && apt install -y --no-install-recommends \
+    --reinstall ca-certificates \
+    vim curl wget git tmux zsh && \
+    apt -y clean && \
+    rm -rf /var/lib/apt/lists/*
+run zsh
+
+add ./works /root
+workdir /root/dotfiles
+run chmod +x ./install.sh && ./install.sh
