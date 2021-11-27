@@ -25,6 +25,13 @@ set smartcase
 
 set nocompatible
 filetype off
+" NOTE: this config must be let before loading fzf.
+let g:fzf_layout = { 'window': {
+  \ 'width': 0.6,
+  \ 'height': 0.6,
+  \ 'border': 'ascii'
+  \ } }
+let g:lsp_diagnostics_float_cursor = 1
 
 " START - Setting up Vundle - the vim plugin bundler
 let iCanHazVundle=1
@@ -73,6 +80,9 @@ Plugin 'hrsh7th/vim-vsnip-integ'
 Plugin 'mattn/vim-goimports'
 Plugin 'Dimercel/todo-vim'
 Plugin 'HerringtonDarkholme/yats.vim'
+Plugin 'cespare/vim-toml'
+Plugin 'previm/previm'
+Plugin 'skanehira/translate.vim'
 call vundle#end()
 
 " let Vundle manage Vundle, required
@@ -176,4 +186,4 @@ let g:lsp_diagnostics_echo_cursor = 1
 let g:asyncomplete_auto_popup = 1
 let g:asyncomplete_popup_delay = 200
 let g:lsp_text_edit_enabled = 0
-
+let g:previm_open_cmd = 'open -a Firefox'
