@@ -83,6 +83,7 @@ Plugin 'HerringtonDarkholme/yats.vim'
 Plugin 'cespare/vim-toml'
 Plugin 'previm/previm'
 Plugin 'skanehira/translate.vim'
+Plugin 'tomlion/vim-solidity'
 call vundle#end()
 
 " let Vundle manage Vundle, required
