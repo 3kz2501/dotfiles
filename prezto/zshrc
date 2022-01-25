@@ -42,6 +42,12 @@ clip() {
   cat $1 | pbcopy
 }
 
+# fzf set up for change default command to riggrep
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
 #anyenv
 export PATH="$HOME/.anyenv/bin:$PATH"
 eval "$(anyenv init -)" 
@@ -59,3 +65,7 @@ export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # dfx
 export PATH="$HOME/bin:$PATH"
+
+# cuda
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH":/usr/local/cuda-11/lib64
+PATH="$PATH":/usr/local/cuda/bin
