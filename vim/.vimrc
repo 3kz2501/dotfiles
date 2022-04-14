@@ -10,8 +10,8 @@ noremap <c-k> <c-w><c-k>
 noremap <c-l> <c-w><c-l>
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-" set clipboard&
-" set clipboard^=unnamedplus
+set clipboard&
+set clipboard^=unnamedplus
 set tabstop=4
 set shiftwidth=4
 set expandtab
@@ -48,15 +48,8 @@ if !filereadable(vim_plug_file)
     let iCanHazPlugVim=0
 endif 
 
-" Set the runtime path to include Vundle and initialize
-" set rtp+=~/.vim/bundle/Vundle.vim
-
-" Download plug-ins to the ~/.vim/plugged/ directory
-" call vundle#begin('~/.vim/plugged')
-
 call plug#begin('~/.vim/plugged')
 
-Plug 'VundleVim/Vundle.vim'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -77,9 +70,6 @@ Plug 'Shougo/unite-outline'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
-" Plugin 'prabirshrestha/vim-lsp'
-" Plugin 'mattn/vim-lsp-settings'
-" Plugin 'mattn/vim-lsp-icons'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
 Plug 'mattn/vim-goimports'
@@ -91,16 +81,15 @@ Plug 'skanehira/translate.vim'
 Plug 'tomlion/vim-solidity'
 Plug 'rust-lang/rust.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
+Plug 'yazgoo/yank-history'
+Plug 'vim-python/python-syntax'
 call plug#end()
-" call vundle#end()
 
-" let Vundle manage Vundle, required
 if iCanHazPlugVim == 0
   echo "Installing Bundles, please ignore key map error messages"
   echo ""
   :PlugInstall
 endif
-" END - Setting up Vundle - the vim plugin bundler
 
 syntax enable
 filetype plugin indent on
@@ -187,6 +176,8 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> <Leader>p :call CocAction('diagnosticPrevious')<CR>
+nmap <silent> <Leader>n :call CocAction('diagnosticNext')<CR>
 nnoremap <silent> <Leader>F :Files<CR>
 nnoremap <silent> <Leader>f :Rg<CR>
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1, {'options': '--delimiter : --nth 4..'}, <bang>0)
@@ -207,3 +198,9 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 
 " set Option for previm
 let g:previm_open_cmd = 'open -a Firefox'
+
+"set Option for yank-history
+nmap <Leader>h :YankHistoryRgPaste
+
+"set Option for python syntax
+let g:python_highlight_all = 1

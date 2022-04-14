@@ -29,6 +29,9 @@ ln -sf "${BASEDIR}/prezto/zshrc" "${HOME}/.zprezto/runcoms/zshrc"
 # simbolic link vim config from dotfiles dir
 ln -sf "${BASEDIR}/vim/.vimrc" "${HOME}/.vimrc"
 
+# simbolic link tmux config from dotfiles dir
+ln -sf "${BASEDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
+
 # install anyenv
 git clone https://github.com/anyenv/anyenv "${HOME}"/.anyenv
 
