@@ -27,7 +27,7 @@ ln -sf "${BASEDIR}/prezto/zshenv" "${HOME}/.zprezto/runcoms/zshenv"
 ln -sf "${BASEDIR}/prezto/zshrc" "${HOME}/.zprezto/runcoms/zshrc"
 
 # simbolic link vim config from dotfiles dir
-ln -sf "${BASEDIR}/vim/.vimrc" "${HOME}/.vimrc"
+ln -sf "${BASEDIR}/vim/.vimrc" "${HOME}/.config/nvim/init.vim"
 
 # simbolic link tmux config from dotfiles dir
 ln -sf "${BASEDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"

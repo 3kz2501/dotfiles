@@ -1,7 +1,6 @@
 set number
 syntax on
 set title
-set encoding=UTF-8
 let mapleader="\<space>"
 inoremap jj <ESC>
 noremap <c-h> <c-w><c-h>
@@ -10,52 +9,53 @@ noremap <c-k> <c-w><c-k>
 noremap <c-l> <c-w><c-l>
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
-set clipboard&
-set clipboard^=unnamedplus
 set tabstop=4
 set shiftwidth=4
 set expandtab
 set incsearch
 set hlsearch
-set termwinsize=12x0
 set splitbelow
 set mouse=a
 set ignorecase
 set smartcase
 
+"clipboard
+" set clipboard&
+" set clipboard^=unnamedplus
+set clipboard=unnamed
+let g:clipboard = {
+      \   'name': 'win32yank-wsl',
+      \   'copy': {
+      \      '+': '/home/kawakami/win_cmd/win32yank.exe -i --crlf',
+      \      '*': '/home/kawakami/win_cmd/win32yank.exe -i --crlf',
+      \    },
+      \   'paste': {
+      \      '+': '/home/kawakami/win_cmd/win32yank.exe -o --lf',
+      \      '*': '/home/kawakami/win_cmd/win32yank.exe -o --lf',
+      \   },
+      \   'cache_enabled': 0,
+      \ }
 set nocompatible
-filetype off
-" NOTE: this config must be let before loading fzf.
-" let g:fzf_layout = { 'window': {
-"   \ 'width': 0.6,
-"   \ 'height': 0.6,
-"   \ 'border': 'ascii'
-"   \ } }
 
-" START - Setting up Vundle - the vim plugin bundler
-" let iCanHazVundle=1
-" let vundle_readme=expand('~/.vim/bundle/Vundle.vim/README.md')
-" if !filereadable(vundle_readme)
-"   silent !mkdir -p ~/.vim/bundle
-"   silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-"   let iCanHazVundle=0
-" endif
+filetype off
 let iCanHazPlugVim=1
-let vim_plug_file=expand('~/.vim/autoload/plug.vim')
+let vim_plug_file=expand('~/.local/share/nvim/autoload/plug.vim')
 if !filereadable(vim_plug_file)
-    silent !mkdir -p ~/.vim/autoload
-    silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    silent !mkdir -p ~/.local/share/nvim/autoload
+    silent !curl -fLo ~/.local/share/nvim//autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     let iCanHazPlugVim=0
 endif 
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 Plug 'tpope/vim-commentary'
+Plug 'terryma/vim-multiple-cursors'
 Plug 'iamcco/markdown-preview.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -63,7 +63,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
 Plug 'preservim/tagbar'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
@@ -72,9 +71,12 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'hrsh7th/vim-vsnip'
 Plug 'hrsh7th/vim-vsnip-integ'
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'mattn/vim-goimports'
 Plug 'Dimercel/todo-vim'
 Plug 'HerringtonDarkholme/yats.vim'
+Plug 'yuezk/vim-js'
+Plug 'maxmellon/vim-jsx-pretty'
 Plug 'cespare/vim-toml'
 Plug 'previm/previm'
 Plug 'skanehira/translate.vim'
@@ -83,7 +85,13 @@ Plug 'rust-lang/rust.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
 Plug 'yazgoo/yank-history'
 Plug 'vim-python/python-syntax'
+Plug 'evanleck/vim-svelte'
+Plug 'pangloss/vim-javascript'
+Plug 'jparise/vim-graphql'
+Plug 'nathanaelkane/vim-indent-guides'
 call plug#end()
+
+set encoding=UTF-8
 
 if iCanHazPlugVim == 0
   echo "Installing Bundles, please ignore key map error messages"
@@ -170,7 +178,66 @@ let g:tagbar_type_go = {
         \ 'ctagsbin'  : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
 \ }
-
+let g:tagbar_type_rust = {
+\ 'ctagstype' : 'rust',
+\ 'kinds' : [
+    \'T:types,type definitions',
+    \'f:functions,function definitions',
+    \'g:enum,enumeration names',
+    \'s:structure names',
+    \'m:modules,module names',
+    \'c:consts,static constants',
+    \'t:traits',
+    \'i:impls,trait implementations',
+\]
+\}
+let g:tagbar_type_typescript = {
+  \ 'ctagstype': 'typescript',
+  \ 'kinds': [
+    \ 'c:classes',
+    \ 'n:modules',
+    \ 'f:functions',
+    \ 'v:variables',
+    \ 'v:varlambdas',
+    \ 'm:members',
+    \ 'i:interfaces',
+    \ 'e:enums',
+  \ ]
+\ }
+" let g:rust_use_custom_ctags_defs = 1  " if using rust.vim
+" let g:tagbar_type_rust = {
+"   \ 'ctagsbin' : '/path/to/your/universal/ctags',
+"   \ 'ctagstype' : 'rust',
+"   \ 'kinds' : [
+"       \ 'n:modules',
+"       \ 's:structures:1',
+"       \ 'i:interfaces',
+"       \ 'c:implementations',
+"       \ 'f:functions:1',
+"       \ 'g:enumerations:1',
+"       \ 't:type aliases:1:0',
+"       \ 'v:constants:1:0',
+"       \ 'M:macros:1',
+"       \ 'm:fields:1:0',
+"       \ 'e:enum variants:1:0',
+"       \ 'P:methods:1',
+"   \ ],
+"   \ 'sro': '::',
+"   \ 'kind2scope' : {
+"       \ 'n': 'module',
+"       \ 's': 'struct',
+"       \ 'i': 'interface',
+"       \ 'c': 'implementation',
+"       \ 'f': 'function',
+"       \ 'g': 'enum',
+"       \ 't': 'typedef',
+"       \ 'v': 'variable',
+"       \ 'M': 'macro',
+"       \ 'm': 'field',
+"       \ 'e': 'enumerator',
+"       \ 'P': 'method',
+"   \ },
+" \ }
 " Set Option for coc.nvim
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
@@ -197,10 +264,21 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 " let g:lsp_text_edit_enabled = 0
 
 " set Option for previm
-let g:previm_open_cmd = 'open -a Firefox'
+let g:previm_open_cmd = 'brave'
+let g:previm_wsl_mode = 1
 
 "set Option for yank-history
-nmap <Leader>h :YankHistoryRgPaste
+nmap <silent> <Leader>h :YankHistoryRgPaste
 
 "set Option for python syntax
 let g:python_highlight_all = 1
+
+"set Option for vim-indent-guides
+let g:indent_guides_enable_on_vim_startup = 0
+
+"Set Options for vim-go Syntax highlight
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions =1
+let g:go_highlight_function_calls = 1
+
