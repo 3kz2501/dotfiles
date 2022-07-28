@@ -49,6 +49,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'Rigellute/shades-of-purple.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
@@ -102,10 +103,19 @@ endif
 syntax enable
 filetype plugin indent on
 
+if (has("termguicolors"))
+ set termguicolors
+endif
+
 " Set options for colorscheme
 set t_Co=256
-set background=dark
-colorscheme PaperColor 
+" set background=dark
+" colorscheme PaperColor 
+colorscheme shades_of_purple 
+
+"set options for shades_of_purple
+let g:shades_of_purple_airline = 1
+let g:airline_theme='shades_of_purple'
 
 " Set options for airline
 let g:airline_theme = 'badwolf'
@@ -178,6 +188,7 @@ let g:tagbar_type_go = {
         \ 'ctagsbin'  : 'gotags',
         \ 'ctagsargs' : '-sort -silent'
 \ }
+" tagbar setting for rust
 let g:tagbar_type_rust = {
 \ 'ctagstype' : 'rust',
 \ 'kinds' : [
@@ -191,6 +202,7 @@ let g:tagbar_type_rust = {
     \'i:impls,trait implementations',
 \]
 \}
+" tagbar setting for typescript
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
   \ 'kinds': [
@@ -204,42 +216,15 @@ let g:tagbar_type_typescript = {
     \ 'e:enums',
   \ ]
 \ }
-" let g:rust_use_custom_ctags_defs = 1  " if using rust.vim
-" let g:tagbar_type_rust = {
-"   \ 'ctagsbin' : '/path/to/your/universal/ctags',
-"   \ 'ctagstype' : 'rust',
-"   \ 'kinds' : [
-"       \ 'n:modules',
-"       \ 's:structures:1',
-"       \ 'i:interfaces',
-"       \ 'c:implementations',
-"       \ 'f:functions:1',
-"       \ 'g:enumerations:1',
-"       \ 't:type aliases:1:0',
-"       \ 'v:constants:1:0',
-"       \ 'M:macros:1',
-"       \ 'm:fields:1:0',
-"       \ 'e:enum variants:1:0',
-"       \ 'P:methods:1',
-"   \ ],
-"   \ 'sro': '::',
-"   \ 'kind2scope' : {
-"       \ 'n': 'module',
-"       \ 's': 'struct',
-"       \ 'i': 'interface',
-"       \ 'c': 'implementation',
-"       \ 'f': 'function',
-"       \ 'g': 'enum',
-"       \ 't': 'typedef',
-"       \ 'v': 'variable',
-"       \ 'M': 'macro',
-"       \ 'm': 'field',
-"       \ 'e': 'enumerator',
-"       \ 'P': 'method',
-"   \ },
-" \ }
 " Set Option for coc.nvim
+" let g:coc_user_config = {}
+" let g:coc_user_config['coc.preferences.jumpCommand'] = ':SplitIfNotOpen4COC'
+" :call CocAction('jumpDefinition', 'split')
+" :call CocAction('jumpDefinition', 'vsplit')
+" :call CocAction('jumpDefinition', 'tabe')
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gs :sp<CR><Plug>(coc-definition)
+nmap <silent> gv :vsp<CR><Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)

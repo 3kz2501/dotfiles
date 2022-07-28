@@ -27,12 +27,17 @@ bindkey "^n" history-beginning-search-forward-end
 
 # Ctrl-^ で cd ..
 # https://github.com/arael/configs/blob/57650c837500ad916f7f7f18903070db354ec58b/zsh/zshrc.prezto#L140
-function cdup() {
-  echo
-  cd ..
-  prompt_${prompt_theme}_precmd
-  zle reset-prompt
-  return 0
+# function cdup() {
+#   echo
+#   cd ..
+#   prompt_${prompt_theme}_precmd
+#   zle reset-prompt
+#   return 0
+# }
+function precmd() {
+  if [ ! -z $TMUX ]; then
+    tmux refresh-client -S
+  fi
 }
 zle -N cdup
 bindkey '^\^' cdup
