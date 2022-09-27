@@ -59,6 +59,7 @@ Plug 'tpope/vim-commentary'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'iamcco/markdown-preview.nvim'
 Plug 'airblade/vim-gitgutter'
+Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
 Plug 'jiangmiao/auto-pairs'
@@ -90,6 +91,9 @@ Plug 'evanleck/vim-svelte'
 Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
 Plug 'nathanaelkane/vim-indent-guides'
+Plug 'vim-denops/denops.vim'
+Plug 'vim-skk/skkeleton'
+Plug 'Shougo/ddc.vim'
 call plug#end()
 
 set encoding=UTF-8
@@ -267,3 +271,33 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions =1
 let g:go_highlight_function_calls = 1
 
+"set Options for skkelton
+call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
+call skkeleton#config({ 'geoJisyo': '~/.skk/SKK-JISYO.geo' })
+call skkeleton#config({ 'jimneiJisyo': '~/.skk/SKK-JISYO.jinmei' })
+call skkeleton#config({ 'fullnameJisyo': '~/.skk/SKK-JISYO.fullname' })
+call skkeleton#config({ 'properJisyo': '~/.skk/SKK-JISYO.propernoun' })
+call skkeleton#config({ 'stationJisyo': '~/.skk/SKK-JISYO.station' })
+call skkeleton#config({ 'eggLikeNewline': v:true })
+imap <C-j> <Plug>(skkeleton-enable)
+cmap <C-j> <Plug>(skkeleton-enable)
+call ddc#custom#patch_global('sources', ['skkeleton'])
+call ddc#custom#patch_global('sourceOptions', {
+    \   '_': {
+    \     'matchers': ['matcher_head'],
+    \     'sorters': ['sorter_rank']
+    \   },
+    \   'skkeleton': {
+    \     'mark': 'skkeleton',
+    \     'matchers': ['skkeleton'],
+    \     'sorters': [],
+    \     'minAutoCompleteLength': 2,
+    \   },
+    \ })
+call ddc#enable()
+
+"set Option for blamer
+let g:blamer_enabled = 1
+let g:blamer_delay = 500
+let g:blamer_date_format = "%Y/%m/%d %H:%M" 
+let g:blamer_template = '<committer>, <committer-time> • <summary> <commit-long>'

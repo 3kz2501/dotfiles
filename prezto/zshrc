@@ -54,3 +54,4 @@ if type rg &> /dev/null; then
 fi
 
 source ~/.exports
+source ~/.alias
