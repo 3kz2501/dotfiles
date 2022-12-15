@@ -47,6 +47,7 @@ endif
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'lambdalisue/nerdfont.vim'
 Plug 'Rigellute/shades-of-purple.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -58,10 +59,12 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'iamcco/markdown-preview.nvim'
 Plug 'airblade/vim-gitgutter'
 Plug 'APZelos/blamer.nvim'
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-fugitive'
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/fern-hijack.vim'
 Plug 'preservim/tagbar'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
@@ -90,6 +93,8 @@ Plug 'jparise/vim-graphql'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-denops/denops.vim'
 Plug '907th/vim-auto-save'
+Plug 'catppuccin/nvim'
+Plug 'itchyny/vim-qfedit'
 call plug#end()
 
 set encoding=UTF-8
@@ -126,27 +131,10 @@ let g:airline_powerline_fonts = 1
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
-" Set Option for NERDTree
-let NERDTreeShowBookmarks = 1   " Show the bookmarks table
-let NERDTreeShowHidden = 1      " Show hidden files
-let NERDTreeShowLineNumbers = 0 " Hide line numbers
-let NERDTreeMinimalMenu = 1     " Use the minimal menu (m)
-let NERDTreeWinSize = 31        " Set panel width to 31 columns
-nmap <F2> :NERDTreeToggle<CR>
-
-" Set options for NERDTree-git-Plugins
-let g:NERDTreeGitStatusIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
+" Set Option for Fern
+nnoremap <F2> :Fern . -drawer -toggle -width=30<CR>
+let g:fern#renderer#nerdfont#indent_markers = 1
+let g:fern#renderer = "nerdfont"
 
 " Set Option for tagber
  " Focus the panel when opening it
@@ -285,39 +273,11 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions =1
 let g:go_highlight_function_calls = 1
 
-""set Options for skkelton
-"call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
-"call skkeleton#config({ 'geoJisyo': '~/.skk/SKK-JISYO.geo' })
-"call skkeleton#config({ 'jimneiJisyo': '~/.skk/SKK-JISYO.jinmei' })
-"call skkeleton#config({ 'fullnameJisyo': '~/.skk/SKK-JISYO.fullname' })
-"call skkeleton#config({ 'properJisyo': '~/.skk/SKK-JISYO.propernoun' })
-"call skkeleton#config({ 'stationJisyo': '~/.skk/SKK-JISYO.station' })
-"call skkeleton#config({ 'eggLikeNewline': v:true })
-"imap <C-j> <Plug>(skkeleton-enable)
-"cmap <C-j> <Plug>(skkeleton-enable)
-"call ddc#custom#patch_global('sources', ['skkeleton'])
-"call ddc#custom#patch_global('sourceOptions', {
-"    \   '_': {
-"    \     'matchers': ['matcher_head'],
-"    \     'sorters': ['sorter_rank']
-"    \   },
-"    \   'skkeleton': {
-"    \     'mark': 'skkeleton',
-"    \     'matchers': ['skkeleton'],
-"    \     'sorters': [],
-"    \     'minAutoCompleteLength': 2,
-"    \   },
-"    \ })
-"call ddc#enable()
-
 "set Option for blamer
 let g:blamer_enabled = 1
 let g:blamer_delay = 500
 let g:blamer_date_format = "%Y/%m/%d %H:%M" 
 let g:blamer_template = '<committer>, <committer-time> • <summary> <commit-long>'
 
-"Set option for auto save
+" Set option for auto-save
 let g:auto_save = 1
-
-"Set option for auto-pairs
-let g:AutoPairsShortcutToggle = '<Leader>P' 
