@@ -1,3 +1,4 @@
+set shell=/usr/bin/zsh
 set number
 syntax on
 set title
@@ -19,19 +20,16 @@ set mouse=a
 set ignorecase
 set smartcase
 
-"clipboard
-" set clipboard&
-" set clipboard^=unnamedplus
 set clipboard=unnamed
 let g:clipboard = {
       \   'name': 'win32yank-wsl',
       \   'copy': {
-      \      '+': '/home/kawakami/win_cmd/win32yank.exe -i --crlf',
-      \      '*': '/home/kawakami/win_cmd/win32yank.exe -i --crlf',
+      \      '+': '/home/nilnull/win_cmd/win32yank.exe -i --crlf',
+      \      '*': '/home/nilnull/win_cmd/win32yank.exe -i --crlf',
       \    },
       \   'paste': {
-      \      '+': '/home/kawakami/win_cmd/win32yank.exe -o --lf',
-      \      '*': '/home/kawakami/win_cmd/win32yank.exe -o --lf',
+      \      '+': '/home/nilnull/win_cmd/win32yank.exe -o --lf',
+      \      '*': '/home/nilnull/win_cmd/win32yank.exe -o --lf',
       \   },
       \   'cache_enabled': 0,
       \ }
@@ -62,7 +60,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-fugitive'
-Plug 'jiangmiao/auto-pairs'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'preservim/tagbar'
@@ -92,8 +89,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'jparise/vim-graphql'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'vim-denops/denops.vim'
-Plug 'vim-skk/skkeleton'
-Plug 'Shougo/ddc.vim'
+Plug '907th/vim-auto-save'
 call plug#end()
 
 set encoding=UTF-8
@@ -129,9 +125,6 @@ let g:airline_powerline_fonts = 1
 " Set options for gitgutter
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
-
-" Set Option for auto-pairs
-let g:AutoPairsShortcutToggle = '<C-P>'
 
 " Set Option for NERDTree
 let NERDTreeShowBookmarks = 1   " Show the bookmarks table
@@ -193,19 +186,40 @@ let g:tagbar_type_go = {
         \ 'ctagsargs' : '-sort -silent'
 \ }
 " tagbar setting for rust
+let g:rust_use_custom_ctags_defs = 1  " if using rust.vim
 let g:tagbar_type_rust = {
-\ 'ctagstype' : 'rust',
-\ 'kinds' : [
-    \'T:types,type definitions',
-    \'f:functions,function definitions',
-    \'g:enum,enumeration names',
-    \'s:structure names',
-    \'m:modules,module names',
-    \'c:consts,static constants',
-    \'t:traits',
-    \'i:impls,trait implementations',
-\]
-\}
+  \ 'ctagsbin' : '/path/to/your/universal/ctags',
+  \ 'ctagstype' : 'rust',
+  \ 'kinds' : [
+      \ 'n:modules',
+      \ 's:structures:1',
+      \ 'i:interfaces',
+      \ 'c:implementations',
+      \ 'f:functions:1',
+      \ 'g:enumerations:1',
+      \ 't:type aliases:1:0',
+      \ 'C:constants:1:0',
+      \ 'M:macros:1',
+      \ 'm:fields:1:0',
+      \ 'e:enum variants:1:0',
+      \ 'P:methods:1',
+  \ ],
+  \ 'sro': '::',
+  \ 'kind2scope' : {
+      \ 'n': 'module',
+      \ 's': 'struct',
+      \ 'i': 'interface',
+      \ 'c': 'implementation',
+      \ 'f': 'function',
+      \ 'g': 'enum',
+      \ 't': 'typedef',
+      \ 'v': 'variable',
+      \ 'M': 'macro',
+      \ 'm': 'field',
+      \ 'e': 'enumerator',
+      \ 'P': 'method',
+  \ },
+\ }
 " tagbar setting for typescript
 let g:tagbar_type_typescript = {
   \ 'ctagstype': 'typescript',
@@ -271,33 +285,39 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions =1
 let g:go_highlight_function_calls = 1
 
-"set Options for skkelton
-call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
-call skkeleton#config({ 'geoJisyo': '~/.skk/SKK-JISYO.geo' })
-call skkeleton#config({ 'jimneiJisyo': '~/.skk/SKK-JISYO.jinmei' })
-call skkeleton#config({ 'fullnameJisyo': '~/.skk/SKK-JISYO.fullname' })
-call skkeleton#config({ 'properJisyo': '~/.skk/SKK-JISYO.propernoun' })
-call skkeleton#config({ 'stationJisyo': '~/.skk/SKK-JISYO.station' })
-call skkeleton#config({ 'eggLikeNewline': v:true })
-imap <C-j> <Plug>(skkeleton-enable)
-cmap <C-j> <Plug>(skkeleton-enable)
-call ddc#custom#patch_global('sources', ['skkeleton'])
-call ddc#custom#patch_global('sourceOptions', {
-    \   '_': {
-    \     'matchers': ['matcher_head'],
-    \     'sorters': ['sorter_rank']
-    \   },
-    \   'skkeleton': {
-    \     'mark': 'skkeleton',
-    \     'matchers': ['skkeleton'],
-    \     'sorters': [],
-    \     'minAutoCompleteLength': 2,
-    \   },
-    \ })
-call ddc#enable()
+""set Options for skkelton
+"call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
+"call skkeleton#config({ 'geoJisyo': '~/.skk/SKK-JISYO.geo' })
+"call skkeleton#config({ 'jimneiJisyo': '~/.skk/SKK-JISYO.jinmei' })
+"call skkeleton#config({ 'fullnameJisyo': '~/.skk/SKK-JISYO.fullname' })
+"call skkeleton#config({ 'properJisyo': '~/.skk/SKK-JISYO.propernoun' })
+"call skkeleton#config({ 'stationJisyo': '~/.skk/SKK-JISYO.station' })
+"call skkeleton#config({ 'eggLikeNewline': v:true })
+"imap <C-j> <Plug>(skkeleton-enable)
+"cmap <C-j> <Plug>(skkeleton-enable)
+"call ddc#custom#patch_global('sources', ['skkeleton'])
+"call ddc#custom#patch_global('sourceOptions', {
+"    \   '_': {
+"    \     'matchers': ['matcher_head'],
+"    \     'sorters': ['sorter_rank']
+"    \   },
+"    \   'skkeleton': {
+"    \     'mark': 'skkeleton',
+"    \     'matchers': ['skkeleton'],
+"    \     'sorters': [],
+"    \     'minAutoCompleteLength': 2,
+"    \   },
+"    \ })
+"call ddc#enable()
 
 "set Option for blamer
 let g:blamer_enabled = 1
 let g:blamer_delay = 500
 let g:blamer_date_format = "%Y/%m/%d %H:%M" 
 let g:blamer_template = '<committer>, <committer-time> • <summary> <commit-long>'
+
+"Set option for auto save
+let g:auto_save = 1
+
+"Set option for auto-pairs
+let g:AutoPairsShortcutToggle = '<Leader>P' 
