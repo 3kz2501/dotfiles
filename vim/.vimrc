@@ -54,6 +54,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-commentary'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'iamcco/markdown-preview.nvim'
@@ -61,10 +63,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'APZelos/blamer.nvim'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-fugitive'
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/fern-hijack.vim'
 Plug 'preservim/tagbar'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
@@ -131,10 +129,29 @@ let g:airline_powerline_fonts = 1
 nmap ]h <Plug>(GitGutterNextHunk)
 nmap [h <Plug>(GitGutterPrevHunk)
 
-" Set Option for Fern
-nnoremap <F2> :Fern . -drawer -toggle -width=30<CR>
-let g:fern#renderer#nerdfont#indent_markers = 1
-let g:fern#renderer = "nerdfont"
+" Set Option for NERDTree
+let NERDTreeShowBookmarks = 1   " Show the bookmarks table
+let NERDTreeShowHidden = 1      " Show hidden files
+let NERDTreeShowLineNumbers = 0 " Hide line numbers
+let NERDTreeMinimalMenu = 1     " Use the minimal menu (m)
+let NERDTreeWinSize = 31        " Set panel width to 31 columns
+let NERDTreeWinSize = 31        " Set panel width to 31 columns
+nmap <F2> :NERDTreeToggle<CR>
+nmap <F3> :NERDTreeFind<CR>
+
+" Set options for NERDTree-git-Plugins
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
 
 " Set Option for tagber
  " Focus the panel when opening it
