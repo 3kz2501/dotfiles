@@ -21,18 +21,6 @@ set ignorecase
 set smartcase
 
 set clipboard=unnamed
-let g:clipboard = {
-      \   'name': 'win32yank-wsl',
-      \   'copy': {
-      \      '+': '/home/nilnull/win_cmd/win32yank.exe -i --crlf',
-      \      '*': '/home/nilnull/win_cmd/win32yank.exe -i --crlf',
-      \    },
-      \   'paste': {
-      \      '+': '/home/nilnull/win_cmd/win32yank.exe -o --lf',
-      \      '*': '/home/nilnull/win_cmd/win32yank.exe -o --lf',
-      \   },
-      \   'cache_enabled': 0,
-      \ }
 set nocompatible
 
 filetype off
@@ -57,8 +45,6 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.1' }
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'tami5/sqlite.lua'
 Plug 'nvim-telescope/telescope-frecency.nvim'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-commentary'
@@ -82,7 +68,7 @@ Plug 'HerringtonDarkholme/yats.vim'
 Plug 'yuezk/vim-js'
 Plug 'maxmellon/vim-jsx-pretty'
 Plug 'cespare/vim-toml'
-Plug 'previm/previm/'
+Plug 'shime/vim-livedown'
 Plug 'skanehira/translate.vim'
 Plug 'rust-lang/rust.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'} 
@@ -94,6 +80,7 @@ Plug 'vim-denops/denops.vim'
 Plug '907th/vim-auto-save'
 Plug 'catppuccin/nvim'
 Plug 'itchyny/vim-qfedit'
+Plug 'easymotion/vim-easymotion'
 call plug#end()
 
 set encoding=UTF-8
@@ -272,9 +259,8 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 " let g:asyncomplete_popup_delay = 200
 " let g:lsp_text_edit_enabled = 0
 
-" set Option for previm
-let g:previm_open_cmd = 'brave'
-let g:previm_wsl_mode = 1
+" " set Option for previm
+" let g:previm_open_cmd = 'brave'
 
 "set Option for yank-history
 nmap <silent> <Leader>h :YankHistoryRgPaste
@@ -305,3 +291,9 @@ nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fb <cmd>Telescope buffers<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+
+"Set Options for easymotion
+map <leader>s <Plug>(easymotion-bd-f2)
+nmap <leader>s <Plug>(easymotion-overwin-f2)
+map <leader>l <Plug>(easymotion-bd-jk)
+nmap <leader>l <Plug>(easymotion-overwin-line)
