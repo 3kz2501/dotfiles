@@ -20,7 +20,7 @@ set mouse=a
 set ignorecase
 set smartcase
 
-set clipboard=unnamed
+set clipboard+=unnamedplus 
 set nocompatible
 
 filetype off
@@ -34,7 +34,6 @@ endif
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'lambdalisue/nerdfont.vim'
 Plug 'Rigellute/shades-of-purple.vim'
 Plug 'vim-airline/vim-airline'
@@ -100,8 +99,6 @@ endif
 
 " Set options for colorscheme
 set t_Co=256
-" set background=dark
-" colorscheme PaperColor 
 colorscheme shades_of_purple 
 
 "set options for shades_of_purple
