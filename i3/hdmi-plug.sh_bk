@@ -1,0 +1,14 @@
+#!/bin/bash
+
+export DISPLAY=:0
+export XAUTHORITY=/home/nilnull/.Xauthority
+
+function connect() {
+    autorandr --change
+}
+
+function disconnect() {
+    autorandr --change
+}
+
+xrandr | grep "HDMI-1-0 connected" &> /dev/null && connect || disconnect

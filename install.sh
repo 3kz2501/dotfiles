@@ -32,11 +32,3 @@ ln -sf "${BASEDIR}/vim/.vimrc" "${HOME}/.config/nvim/init.vim"
 # simbolic link tmux config from dotfiles dir
 ln -sf "${BASEDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 
-# install anyenv
-git clone https://github.com/anyenv/anyenv "${HOME}"/.anyenv
-
-####anyenv path####
-echo 'export PATH="$HOME/.anyenv/bin:$PATH"' >> "${HOME}"/.zhsrc
-eval "$(${HOME}/.anyenv/bin/anyenv init -)"
-source "${HOME}"/.zshrc
-anyenv install --init

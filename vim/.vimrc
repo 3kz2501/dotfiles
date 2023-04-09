@@ -20,7 +20,7 @@ set mouse=a
 set ignorecase
 set smartcase
 
-set clipboard+=unnamedplus 
+set clipboard+=unnamedplus
 set nocompatible
 
 filetype off
