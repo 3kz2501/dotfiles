@@ -32,3 +32,6 @@ ln -sf "${BASEDIR}/vim/.vimrc" "${HOME}/.config/nvim/init.vim"
 # simbolic link tmux config from dotfiles dir
 ln -sf "${BASEDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 
+# simbolic link i3wm config from dotfiles dir
+mkdir "${HOME}/.config/i3"
+ln -sf "${BASEDIR}/i3/*" "${HOME}/.config/i3/"
