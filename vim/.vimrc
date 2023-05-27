@@ -80,6 +80,12 @@ Plug '907th/vim-auto-save'
 Plug 'catppuccin/nvim'
 Plug 'itchyny/vim-qfedit'
 Plug 'easymotion/vim-easymotion'
+Plug 'leafOfTree/vim-svelte-plugin'
+Plug 'vim-denops/denops.vim'
+Plug 'vim-skk/denops-skkeleton.vim'
+Plug 'Shougo/ddc.vim'
+Plug 'Shougo/ddc-matcher_head'
+Plug 'Shougo/ddc-sorter_rank'
 call plug#end()
 
 set encoding=UTF-8
@@ -294,3 +300,27 @@ map <leader>s <Plug>(easymotion-bd-f2)
 nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
+
+"Set Options for ssk
+imap <C-j> <Plug>(skkeleton-toggle)
+cmap <C-j> <Plug>(skkeleton-toggle)
+
+call skkeleton#config({
+\'eggLikeNewline':v:true
+\})
+call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
+
+call ddc#custom#patch_global('sources', ['skkeleton'])
+call ddc#custom#patch_global('sourceOptions', {
+    \   '_': {
+    \     'matchers': ['matcher_head'],
+    \     'sorters': ['sorter_rank']
+    \   },
+    \   'skkeleton': {
+    \     'mark': 'skkeleton',
+    \     'matchers': ['skkeleton'],
+    \     'sorters': [],
+    \     'minAutoCompleteLength': 2,
+    \   },
+    \ })
+call ddc#enable()
