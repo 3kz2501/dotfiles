@@ -1,4 +1,3 @@
-set shell=/usr/bin/zsh
 set number
 syntax on
 set title
@@ -15,7 +14,6 @@ set shiftwidth=4
 set expandtab
 set incsearch
 set hlsearch
-set splitbelow
 set mouse=a
 set ignorecase
 set smartcase
@@ -24,13 +22,6 @@ set clipboard+=unnamedplus
 set nocompatible
 
 filetype off
-let iCanHazPlugVim=1
-let vim_plug_file=expand('~/.local/share/nvim/autoload/plug.vim')
-if !filereadable(vim_plug_file)
-    silent !mkdir -p ~/.local/share/nvim/autoload
-    silent !curl -fLo ~/.local/share/nvim//autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    let iCanHazPlugVim=0
-endif 
 
 call plug#begin('~/.local/share/nvim/plugged')
 
@@ -49,7 +40,7 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-commentary'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'airblade/vim-gitgutter'
-Plug 'APZelos/blamer.nvim'
+" Plug 'APZelos/blamer.nvim'
 Plug 'machakann/vim-sandwich'
 Plug 'tpope/vim-fugitive'
 Plug 'preservim/tagbar'
@@ -81,20 +72,9 @@ Plug 'catppuccin/nvim'
 Plug 'itchyny/vim-qfedit'
 Plug 'easymotion/vim-easymotion'
 Plug 'leafOfTree/vim-svelte-plugin'
-Plug 'vim-denops/denops.vim'
-Plug 'vim-skk/denops-skkeleton.vim'
-Plug 'Shougo/ddc.vim'
-Plug 'Shougo/ddc-matcher_head'
-Plug 'Shougo/ddc-sorter_rank'
 call plug#end()
 
 set encoding=UTF-8
-
-if iCanHazPlugVim == 0
-  echo "Installing Bundles, please ignore key map error messages"
-  echo ""
-  :PlugInstall
-endif
 
 syntax enable
 filetype plugin indent on
@@ -230,12 +210,6 @@ let g:tagbar_type_typescript = {
     \ 'e:enums',
   \ ]
 \ }
-" Set Option for coc.nvim
-" let g:coc_user_config = {}
-" let g:coc_user_config['coc.preferences.jumpCommand'] = ':SplitIfNotOpen4COC'
-" :call CocAction('jumpDefinition', 'split')
-" :call CocAction('jumpDefinition', 'vsplit')
-" :call CocAction('jumpDefinition', 'tabe')
 nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gs :sp<CR><Plug>(coc-definition)
 nmap <silent> gv :vsp<CR><Plug>(coc-definition)
@@ -280,12 +254,6 @@ let g:go_highlight_fields = 1
 let g:go_highlight_functions =1
 let g:go_highlight_function_calls = 1
 
-"set Option for blamer
-let g:blamer_enabled = 1
-let g:blamer_delay = 500
-let g:blamer_date_format = "%Y/%m/%d %H:%M" 
-let g:blamer_template = '<committer>, <committer-time> • <summary> <commit-long>'
-
 " Set option for auto-save
 let g:auto_save = 1
 
@@ -300,27 +268,3 @@ map <leader>s <Plug>(easymotion-bd-f2)
 nmap <leader>s <Plug>(easymotion-overwin-f2)
 map <leader>l <Plug>(easymotion-bd-jk)
 nmap <leader>l <Plug>(easymotion-overwin-line)
-
-"Set Options for ssk
-imap <C-j> <Plug>(skkeleton-toggle)
-cmap <C-j> <Plug>(skkeleton-toggle)
-
-call skkeleton#config({
-\'eggLikeNewline':v:true
-\})
-call skkeleton#config({ 'globalJisyo': '~/.skk/SKK-JISYO.L' })
-
-call ddc#custom#patch_global('sources', ['skkeleton'])
-call ddc#custom#patch_global('sourceOptions', {
-    \   '_': {
-    \     'matchers': ['matcher_head'],
-    \     'sorters': ['sorter_rank']
-    \   },
-    \   'skkeleton': {
-    \     'mark': 'skkeleton',
-    \     'matchers': ['skkeleton'],
-    \     'sorters': [],
-    \     'minAutoCompleteLength': 2,
-    \   },
-    \ })
-call ddc#enable()

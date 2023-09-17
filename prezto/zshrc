@@ -11,6 +11,10 @@ fi
 
 export LSCOLORS=gxfxcxdxbxegedabagacad
 export EDITOR="/usr/bin/vim"
+## history
+HISTFILE=~/.zsh_history
+HISTSIZE=1000000
+SAVEHIST=1000000
 # https://github.com/sorin-ionescu/prezto/issues/622
 unsetopt CORRECT
 
@@ -47,9 +51,7 @@ fi
 
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 source ~/.exports
+source ~/.alias
 
+eval "$(atuin init zsh)"
