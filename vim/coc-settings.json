@@ -1,0 +1,12 @@
+{
+  "languageserver": {
+    "graphql": {
+      "command": "graphql-lsp",
+      "args": ["server", "-m", "stream"],
+      "filetypes": ["typescript", "typescriptreact", "graphql"]
+    }
+  },
+  "coc.preferences.formatOnSaveFiletypes": [
+    "prisma", "ts", "tsx", "js", "jsx"
+  ]
+}

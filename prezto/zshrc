@@ -55,3 +55,13 @@ source ~/.exports
 source ~/.alias
 
 eval "$(atuin init zsh)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# bun completions
+[ -s "/home/nilnull/.bun/_bun" ] && source "/home/nilnull/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
