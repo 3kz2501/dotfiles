@@ -1,5 +1,6 @@
 {
   "ChatGPT.nvim": { "branch": "main", "commit": "b50fdaf7836c18e0de2f1def0c1f39d56ef8bced" },
+  "barbar.nvim": { "branch": "master", "commit": "dd852401ee902745b67fc09a83d113b3fe82a96f" },
   "coc.nvim": { "branch": "master", "commit": "e10877749538a9875e359abe69974b0d0ca697ca" },
   "ddc.vim": { "branch": "main", "commit": "c80d20daa8df26dd2ee1f62dd8d5db60b70fe43e" },
   "denops.vim": { "branch": "main", "commit": "6c7ebef6f71b948a152c09bd844fba00f8fee3d6" },
