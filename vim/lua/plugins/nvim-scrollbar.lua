@@ -2,9 +2,9 @@ return {
   "petertriho/nvim-scrollbar",
   dependencies = {
     "kevinhwang91/nvim-hlslens",
+    "lewis6991/gitsigns.nvim",
   },
   opts = {
-    show = true,
     set_highlights = false,
     show_in_active_only = true,
     handle = { blend = 0 },
