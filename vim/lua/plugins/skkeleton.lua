@@ -1,27 +1,34 @@
+local h = require("util.helper")
+
 return {
-	"vim-skk/skkeleton",
-	dependencies = {
-		"vim-denops/denops.vim",
-		"Shougo/ddc.vim",
+	{
+		"vim-skk/skkeleton",
+		lazy = false,
+		dependencies = { "vim-denops/denops.vim" },
+		init = function()
+			h.imap("<C-j>", "<Plug>(skkeleton-enable)")
+			h.cmap("<C-j>", "<Plug>(skkeleton-enable)")
+
+			-- 辞書を探す
+			local dictionaries = {}
+			local handle = io.popen("ls $HOME/.skk/*") -- フルバスで取得
+			if handle then
+				for file in handle:lines() do
+					table.insert(dictionaries, file)
+				end
+				handle:close()
+			end
+
+			vim.api.nvim_create_autocmd("User", {
+				pattern = "skkeleton-initialize-pre",
+				callback = function()
+					vim.fn["skkeleton#config"]({
+						eggLikeNewline = true,
+						registerConvertResult = true,
+						globalDictionaries = dictionaries,
+					})
+				end,
+			})
+		end,
 	},
-	keys = {
-		{ "<C-j>", "<Plug>(skkeleton-toggle)", desc = "toggle skkeleton", mode = "i" },
-	},
-	config = function()
-		vim.fn["skkeleton#config"]({
-			eggLikeNewline = true,
-			useSkkServer = true,
-			immediatelyCancel = false,
-			registerConvertResult = true,
-			globalDictionaries = {
-				vim.fn.expand("~/.skk/SKK-JISYO.L"),
-				vim.fn.expand("~/.skk/SKK-JISYO.fullname"),
-				vim.fn.expand("~/.skk/SKK-JISYO.geo"),
-				vim.fn.expand("~/.skk/SKK-JISYO.jinmei"),
-				vim.fn.expand("~/.skk/SKK-JISYO.propernoun"),
-				vim.fn.expand("~/.skk/SKK-JISYO.station"),
-			},
-		})
-	end,
-	event = "VeryLazy",
 }
