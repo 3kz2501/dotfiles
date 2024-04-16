@@ -1,7 +1,7 @@
 local M = {
     "nvim-treesitter/nvim-treesitter",
     opts = {
-      ensure_installed = {"lua", "typescript", "rust", "python", "prisma"},
+      ensure_installed = {"all"},
       sync_install = true,
     },
     build = function()

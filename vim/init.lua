@@ -1,7 +1,6 @@
 vim.scriptencoding = 'utf-8'
 vim.opt.encoding = 'utf-8'
 vim.opt.fileencoding = 'utf-8'
-
 vim.opt.number = true
 vim.wo.number = true
 vim.wo.relativenumber = false
@@ -27,7 +26,7 @@ vim.opt.wrap = true
 vim.opt.helplang = 'ja', 'en'
 vim.opt.updatetime = 300
 vim.opt.showtabline = 2
-vim.opt.clipboard = 'unnamedplus' --クリップボードとレジスタを共有
+vim.api.nvim_set_option('clipboard', 'unnamedplus')
 vim.opt.termguicolors = true
 vim.opt.hidden = true
 vim.opt.swapfile = false --スワップファイルを生成しない
@@ -37,7 +36,7 @@ vim.g.mapleader = ' '
 vim.opt.winblend = 5 --フロートウィンドウなどを若干透明に
 -- Python3
 vim.cmd([[
-    let g:python3_host_prog = '/usr/bin/python3'
+    let g:python3_host_prog = '/home/nilnull/.pyenv/shims/python'
 ]])
 
 local keymap = vim.keymap
