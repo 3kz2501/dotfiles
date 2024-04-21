@@ -12,11 +12,14 @@ return {
 			typescript = { "biome" },
 			javascriptreact = { "biome" },
 			typescriptreact = { "biome" },
+			vue = { "biome" },
 			svelte = { "biome" },
 			python = { "pylint" },
 			sql = { "sqlfluff" },
 			json = { "jsonlint" },
 			go = { "staticcheck" },
+			lua = { "luacheck" },
+			bash = { "shellcheck" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
