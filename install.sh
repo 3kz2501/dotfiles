@@ -36,3 +36,6 @@ ln -sf "${BASEDIR}/tmux/.tmux.conf" "${HOME}/.tmux.conf"
 
 # simbolic link kitty config from dotfiles dir
 ln -sf "${BASEDIR}/kitty/kitty.conf" "${HOME}/.config/kitty/kitty.conf"
+
+# simbolic link input japanese on kitty from dotfiles dir
+ln -sf "${BASEDIR}/.xprofile" "${HOME}/.xprofile"
