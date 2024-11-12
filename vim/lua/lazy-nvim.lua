@@ -17,33 +17,34 @@ require("lazy").setup("plugins")
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(ctx)
 		local set = vim.keymap.set
-		set("n", "<space>e", vim.diagnostic.open_float(), { buffer = ctx.buffer })
-		set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { buffer = true })
-		set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { buffer = true })
-		set("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { buffer = true })
-		set("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = true })
-		set("n", "<C-k>", "<cmd>lua vim.lsp.buf.signature_help()<CR>", { buffer = true })
-		set("n", "<space>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", { buffer = true })
-		set("n", "<space>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", { buffer = true })
-		set(
-			"n",
-			"<space>wl",
-			"<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>",
-			{ buffer = true }
-		)
-		set("n", "<space>D", "<cmd>lua vim.lsp.buf.type_definition()<CR>", { buffer = true })
-		set("n", "<space>rn", "<cmd>lua vim.lsp.buf.rename()<CR>", { buffer = true })
-		set("n", "<space>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>", { buffer = true })
-		set("n", "gr", "<cmd>lua vim.lsp.buf.references()<CR>", { buffer = true })
-		set("n", "<space>e", "<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>", { buffer = true })
-		set("n", "[d", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", { buffer = true })
-		set("n", "]d", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", { buffer = true })
-		set("n", "<space>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", { buffer = true })
-		set("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", { buffer = true })
+		set("n", "gD", vim.lsp.buf.declaration, { buffer = true })
+		set("n", "gd", vim.lsp.buf.definition, { buffer = true })
+		set("n", "K", vim.lsp.buf.hover, { buffer = true })
+		set("n", "gi", vim.lsp.buf.implementation, { buffer = true })
+		set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = true })
+		set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, { buffer = true })
+		set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, { buffer = true })
+		set("n", "<space>wl", function()
+			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+		end, { buffer = true })
+		set("n", "<space>D", vim.lsp.buf.type_definition, { buffer = true })
+		set("n", "<space>rn", vim.lsp.buf.rename, { buffer = true })
+		set("n", "<space>ca", vim.lsp.buf.code_action, { buffer = true })
+		set("n", "gr", vim.lsp.buf.references, { buffer = true })
+
+		-- エラーの箇所に飛ぶキーバインド
+		set("n", "<space>p", vim.diagnostic.goto_prev, { buffer = true })
+		set("n", "<space>n", vim.diagnostic.goto_next, { buffer = true })
+
+		-- エラーをフロートウィンドウで表示するキーバインド
+		set("n", "<leader>e", vim.diagnostic.open_float, { buffer = true })
+
+		set("n", "<space>q", vim.diagnostic.setloclist, { buffer = true })
+		-- set("n", "<space>f", vim.lsp.buf.formatting_sync, { buffer = true })
 	end,
 })
 
--- 補完プラグインであるcmp_nvim_lspをLSPと連携させています⇐ココ！
+-- 補完プラグインであるcmp_nvim_lspをLSPと連携させる設定
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- プラグインの設定
@@ -51,13 +52,15 @@ require("mason").setup()
 require("mason-lspconfig").setup()
 require("mason-lspconfig").setup_handlers({
 	function(server_name)
-		require("lspconfig")[server_name].setup({})
+		require("lspconfig")[server_name].setup({
+			capabilities = capabilities, -- 追加
+		})
 	end,
 })
 
 -- Lspkindのrequire
 local lspkind = require("lspkind")
---補完関係の設定
+-- 補完関係の設定
 local cmp = require("cmp")
 cmp.setup({
 	snippet = {
@@ -72,11 +75,11 @@ cmp.setup({
 		{ name = "path" },
 	},
 	mapping = cmp.mapping.preset.insert({
-		["<C-p>"] = cmp.mapping.select_prev_item(), --Ctrl+pで補完欄を一つ上に移動
-		["<C-n>"] = cmp.mapping.select_next_item(), --Ctrl+nで補完欄を一つ下に移動
+		["<C-p>"] = cmp.mapping.select_prev_item(), -- Ctrl+pで補完欄を一つ上に移動
+		["<C-n>"] = cmp.mapping.select_next_item(), -- Ctrl+nで補完欄を一つ下に移動
 		["<C-l>"] = cmp.mapping.complete(),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<C-y>"] = cmp.mapping.confirm({ select = true }), --Ctrl+yで補完を選択確定
+		["<C-y>"] = cmp.mapping.confirm({ select = true }), -- Ctrl+yで補完を選択確定
 	}),
 	experimental = {
 		ghost_text = false,
@@ -92,3 +95,7 @@ cmp.setup({
 		}),
 	},
 })
+
+-- 検索結果の移動の再設定
+vim.api.nvim_set_keymap("n", "n", "nzzzv", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "N", "Nzzzv", { noremap = true, silent = true })

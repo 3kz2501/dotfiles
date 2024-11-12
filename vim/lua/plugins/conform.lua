@@ -18,10 +18,11 @@ return {
 				markdown = { "prettier" },
 				graphql = { "prettier" },
 				lua = { "stylua" },
-				python = { "isort", "black" },
+				python = { "ruff" },
 				go = { "goimports" },
-				sql = { "sql-formatter" },
 				bash = { "shellharden" },
+				sql = { "sqlfmt" },
+				cpp = { "clang-format" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

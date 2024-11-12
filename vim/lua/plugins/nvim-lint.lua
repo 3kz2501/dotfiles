@@ -8,18 +8,18 @@ return {
 		local lint = require("lint")
 
 		lint.linters_by_ft = {
-			javascript = { "biome" },
-			typescript = { "biome" },
-			javascriptreact = { "biome" },
-			typescriptreact = { "biome" },
-			vue = { "biome" },
-			svelte = { "biome" },
-			python = { "pylint" },
-			sql = { "sqlfluff" },
-			json = { "jsonlint" },
+			javascript = { "biomejs" },
+			typescript = { "biomejs" },
+			javascriptreact = { "biomejs" },
+			typescriptreact = { "biomejs" },
+			vue = { "biomejs" },
+			svelte = { "biomejs" },
+			python = { "ruff" },
 			go = { "staticcheck" },
 			lua = { "luacheck" },
 			bash = { "shellcheck" },
+			sql = { "sqlfluff" },
+			cpp = { "cpplint" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
