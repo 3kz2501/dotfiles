@@ -23,6 +23,7 @@ return {
 				bash = { "shellharden" },
 				sql = { "sqlfmt" },
 				cpp = { "clang-format" },
+				c = { "clang-format" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

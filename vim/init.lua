@@ -36,8 +36,10 @@ vim.g.mapleader = " "
 vim.opt.winblend = 5 --フロートウィンドウなどを若干透明に
 -- Python3
 vim.cmd([[
-    let g:python3_host_prog = '/home/3kz/.local/share/mise/installs/python/3.11/bin/python'
+    let g:python3_host_prog = '/home/kz/.local/share/mise/shims/python'
 ]])
+
+vim.g.previm_open_cmd = "open -a /home/kz/Apps/zen-x86_64.AppImage"
 
 local keymap = vim.keymap
 -- キーバインド
@@ -49,5 +51,12 @@ keymap.set("n", "sv", ":vsplit<Return><C-w>w")
 keymap.set("i", "jj", "<Esc>")
 -- 設定ファイルを開く
 keymap.set("n", "<F1>", ":edit $MYVIMRC<CR>")
+
+-- インレイヒントの設定を修正
+if vim.lsp.inlay_hint then
+	vim.keymap.set("n", "<leader>L", function()
+		vim.lsp.inlay_hint.enable(true, { 0 })
+	end, { desc = "インレイヒントを有効化" })
+end
 
 require("lazy-nvim")
