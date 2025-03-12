@@ -4,8 +4,18 @@ return {
 	lazy = false,
 	version = false,
 	opts = {
-		provider = "copilot",
-		auto_suggestions_provider = "copilot",
+		-- provider = "claude",
+		provider = "claude",
+		auto_suggestions_provider = "claude",
+		-- The provider used in the applying phase of Cursor Planning Mode, defaults to nil, when nil uses Config.provider
+		-- as the provider for the applying phase
+		cursor_applying_provider = nil,
+		claude = {
+			endpoint = "https://api.anthropic.com",
+			model = "claude-3-7-sonnet-20250219",
+			temperature = 0,
+			max_tokens = 64000,
+		},
 
 		-- 動作設定
 		behaviour = {
@@ -31,10 +41,18 @@ return {
 		"stevearc/dressing.nvim",
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
+
 		-- オプションの依存関係
-		"hrsh7th/nvim-cmp",
+		"echasnovski/mini.pick", -- for file_selector provider mini.pick
+		"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
+		"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
+		"ibhagwan/fzf-lua", -- for file_selector provider fzf
 		"nvim-tree/nvim-web-devicons",
 		"zbirenbaum/copilot.lua",
-		-- その他の拡張機能
+	},
+	config = {
+		web_search_engine = {
+			provider = "kagi", -- tavily, serpapi, searchapi, google or kagi
+		},
 	},
 }

@@ -58,5 +58,4 @@ if vim.lsp.inlay_hint then
 		vim.lsp.inlay_hint.enable(true, { 0 })
 	end, { desc = "インレイヒントを有効化" })
 end
-
 require("lazy-nvim")
