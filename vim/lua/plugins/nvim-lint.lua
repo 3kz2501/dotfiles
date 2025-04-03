@@ -22,7 +22,14 @@ return {
 			cpp = { "cpplint" },
 			c = { "cpplint" },
 			java = { "checkstyle" },
-			-- rust エントリを削除
+		}
+
+		-- Ruff の設定をカスタマイズ
+		lint.linters.ruff = {
+			cmd = "ruff", -- ここに cmd パラメータを追加
+			-- オプション: 必要に応じてカスタマイズ可能
+			-- 例: 特定のルールを有効化/無効化
+			args = { "--select=E,F,W", "--ignore=E501" },
 		}
 
 		local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })

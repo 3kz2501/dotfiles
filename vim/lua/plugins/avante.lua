@@ -2,7 +2,6 @@ return {
 	"yetone/avante.nvim",
 	event = "VeryLazy",
 	lazy = false,
-	version = false,
 	opts = {
 		-- provider = "claude",
 		provider = "claude",
@@ -35,6 +34,7 @@ return {
 			-- その他の詳細設定は省略
 		},
 	},
+	build = "make",
 	-- 依存関係の設定
 	dependencies = {
 		-- 必須の依存関係

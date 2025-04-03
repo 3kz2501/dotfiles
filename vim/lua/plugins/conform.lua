@@ -17,10 +17,10 @@ return {
 				markdown = { "prettier" },
 				graphql = { "prettier" },
 				lua = { "stylua" },
-				python = { "ruff" },
+				python = { "ruff_format" }, -- ruff を ruff_format に変更
 				go = { "goimports" },
 				bash = { "shellharden" },
-				sql = { "sqlfluff", "sqlfmt" }, -- sqlfluff を追加
+				sql = { "sqlfluff", "sqlfmt" },
 				cpp = { "clang-format" },
 				c = { "clang-format" },
 			},
@@ -29,8 +29,13 @@ return {
 				async = false,
 				timeout_ms = 500,
 			},
-			-- SQLFluff の詳細設定を追加
+			-- Ruff フォーマッタの詳細設定を追加
 			formatters = {
+				ruff_format = {
+					-- オプション: 必要に応じてカスタマイズ可能
+					-- 例: ライン長の設定
+					-- args = { "--line-length", "88" },
+				},
 				sqlfluff = {
 					-- SQLFluff の設定をカスタマイズする場合はここに追加
 					-- 例: 特定のダイアレクトを指定する場合

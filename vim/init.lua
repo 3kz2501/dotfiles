@@ -39,7 +39,7 @@ vim.cmd([[
     let g:python3_host_prog = '/home/kz/.local/share/mise/shims/python'
 ]])
 
-vim.g.previm_open_cmd = "open -a /home/kz/Apps/zen-x86_64.AppImage"
+vim.g.previm_open_cmd = "open -a /usr/bin/brave-browser"
 
 local keymap = vim.keymap
 -- キーバインド
