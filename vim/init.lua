@@ -59,3 +59,26 @@ if vim.lsp.inlay_hint then
 	end, { desc = "インレイヒントを有効化" })
 end
 require("lazy-nvim")
+-- Inlay hintsとsemantic tokensのエラーを一時的に回避
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+		if client then
+			-- 問題のある機能を一時的に無効化
+			if vim.fn.has("nvim-0.10") == 0 then
+				client.server_capabilities.inlayHintProvider = nil
+				client.server_capabilities.semanticTokensProvider = nil
+			end
+		end
+	end,
+})
+-- LSPデバッグコマンド
+vim.api.nvim_create_user_command("LspDebug", function()
+	local clients = vim.lsp.get_active_clients()
+	for _, client in ipairs(clients) do
+		print(string.format("Client: %s (id: %d)", client.name, client.id))
+		print("  Capabilities:")
+		print("  - inlayHint: " .. tostring(client.server_capabilities.inlayHintProvider ~= nil))
+		print("  - semanticTokens: " .. tostring(client.server_capabilities.semanticTokensProvider ~= nil))
+	end
+end, {})

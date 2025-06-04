@@ -11,6 +11,39 @@ if not vim.loop.fs_stat(lazypath) then
 end
 
 vim.opt.rtp:prepend(lazypath)
+-- 診断機能の設定
+vim.diagnostic.config({
+	virtual_text = true, -- インライン表示を有効化
+	signs = true, -- 左側のサインを表示
+	underline = true, -- エラー箇所に下線
+	update_in_insert = false, -- 挿入モード中は更新しない
+	severity_sort = true, -- 重要度でソート
+	float = {
+		border = "rounded",
+		source = "always",
+		header = "",
+		prefix = "",
+	},
+})
+
+-- 診断のハイライト設定
+vim.cmd([[
+  highlight DiagnosticError guifg=#f44747
+  highlight DiagnosticWarn guifg=#ff8800
+  highlight DiagnosticInfo guifg=#ffcc00
+  highlight DiagnosticHint guifg=#4fc1ff
+  highlight DiagnosticUnderlineError gui=undercurl guisp=#f44747
+  highlight DiagnosticUnderlineWarn gui=undercurl guisp=#ff8800
+  highlight DiagnosticUnderlineInfo gui=undercurl guisp=#ffcc00
+  highlight DiagnosticUnderlineHint gui=undercurl guisp=#4fc1ff
+]])
+
+-- サインの定義
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
 
 require("lazy").setup("plugins")
 
@@ -40,7 +73,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		set("n", "<leader>e", vim.diagnostic.open_float, { buffer = true })
 
 		set("n", "<space>q", vim.diagnostic.setloclist, { buffer = true })
-		-- set("n", "<space>f", vim.lsp.buf.formatting_sync, { buffer = true })
 	end,
 })
 
@@ -56,7 +88,9 @@ vim.api.nvim_create_autocmd("User", {
 		if pcall(require, "mason-lspconfig") then
 			require("mason-lspconfig").setup_handlers({
 				function(server_name)
-					require("lspconfig")[server_name].setup({})
+					require("lspconfig")[server_name].setup({
+						capabilities = capabilities,
+					})
 				end,
 			})
 		end
@@ -95,8 +129,6 @@ cmp.setup({
 			mode = "symbol", -- show only symbol annotations
 			maxwidth = 50, -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
 			ellipsis_char = "...", -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-			-- The function below will be called before any actual modifications from lspkind
-			-- so that you can provide more controls on popup customization. (See [#30](https://github.com/onsails/lspkind-nvim/pull/30))
 		}),
 	},
 })
