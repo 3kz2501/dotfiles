@@ -55,4 +55,14 @@ return {
 			provider = "kagi", -- tavily, serpapi, searchapi, google or kagi
 		},
 	},
+	system_prompt = function()
+		local hub = require("mcphub").get_hub_instance()
+		return hub:get_active_servers_prompt()
+	end,
+	-- Using function prevents requiring mcphub before it's loaded
+	custom_tools = function()
+		return {
+			require("mcphub.extensions.avante").mcp_tool(),
+		}
+	end,
 }

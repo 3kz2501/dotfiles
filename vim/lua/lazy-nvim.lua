@@ -50,11 +50,16 @@ local capabilities = require("cmp_nvim_lsp").default_capabilities()
 -- プラグインの設定
 require("mason").setup()
 require("mason-lspconfig").setup()
-require("mason-lspconfig").setup_handlers({
-	function(server_name)
-		require("lspconfig")[server_name].setup({
-			capabilities = capabilities, -- 追加
-		})
+vim.api.nvim_create_autocmd("User", {
+	pattern = "LazyDone",
+	callback = function()
+		if pcall(require, "mason-lspconfig") then
+			require("mason-lspconfig").setup_handlers({
+				function(server_name)
+					require("lspconfig")[server_name].setup({})
+				end,
+			})
+		end
 	end,
 })
 
