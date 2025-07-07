@@ -1,11 +1,11 @@
 return {
-	"github/copilot.vim",
-	lazy = false,
+	"zbirenbaum/copilot.lua",
+	cmd = "Copilot",
+	event = "InsertEnter",
 	config = function()
-		vim.defer_fn(function()
-			require("copilot").setup({
-				-- ここに必要な設定オプションを追加できます
-			})
-		end, 100)
+		require("copilot").setup({
+			suggestion = { enabled = false },
+			panel = { enabled = false },
+		})
 	end,
 }

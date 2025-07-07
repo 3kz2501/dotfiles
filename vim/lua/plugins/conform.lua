@@ -23,6 +23,7 @@ return {
 				sql = { "sqlfluff", "sqlfmt" },
 				cpp = { "clang-format" },
 				c = { "clang-format" },
+				toml = { "taplo" },
 			},
 			format_on_save = {
 				lsp_fallback = true,

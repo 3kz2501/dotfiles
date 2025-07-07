@@ -2,67 +2,112 @@ return {
 	"yetone/avante.nvim",
 	event = "VeryLazy",
 	lazy = false,
+	version = false,
 	opts = {
-		-- provider = "claude",
-		provider = "claude",
-		auto_suggestions_provider = "claude",
-		-- The provider used in the applying phase of Cursor Planning Mode, defaults to nil, when nil uses Config.provider
-		-- as the provider for the applying phase
-		cursor_applying_provider = nil,
-		claude = {
-			endpoint = "https://api.anthropic.com",
-			model = "claude-3-7-sonnet-20250219",
-			temperature = 0,
-			max_tokens = 64000,
-		},
+		provider = "vertex_ai_claude",
+		vendors = {
+			vertex_ai_claude = {
+				__inherited_from = "openai",
+				endpoint = "https://us-east5-aiplatform.googleapis.com/v1/projects/nodex-generation-ai/locations/us-east5/publishers/anthropic/models",
+				model = "claude-sonnet-4@20250514",
+				api_key_name = "cmd:gcloud auth print-access-token",
+				parse_curl_args = function(opts, code_opts)
+					-- トークンを取得
+					local api_key = ""
+					if opts.api_key_name and opts.parse_api_key then
+						api_key = opts.parse_api_key(opts.api_key_name)
+					elseif opts.api_key_name and opts.api_key_name:match("^cmd:") then
+						local cmd = opts.api_key_name:sub(5)
+						api_key = vim.fn.system(cmd):gsub("%s+", "")
+					end
 
-		-- 動作設定
-		behaviour = {
-			auto_suggestions = false,
-			auto_set_highlight_group = true,
-			auto_set_keymaps = true,
-			auto_apply_diff_after_generation = false,
-			support_paste_from_clipboard = false,
-			minimize_diff = true,
-		},
+					-- bodyをJSONとして解析
+					local body_content = opts.body
+					if type(body_content) == "string" then
+						-- すでにJSON文字列の場合はデコード
+						local ok, decoded = pcall(vim.json.decode, body_content)
+						if ok then
+							body_content = decoded
+						end
+					end
 
-		-- ウィンドウ設定
-		windows = {
-			position = "right", -- サイドバーの位置
-			wrap = true, -- テキストの折り返し
-			width = 30, -- サイドバーの幅
-			-- その他の詳細設定は省略
+					-- メッセージを抽出
+					local messages = body_content and body_content.messages or { { role = "user", content = "test" } }
+
+					-- Vertex AI Anthropic API用のリクエストボディ
+					local vertex_body = {
+						anthropic_version = "vertex-2023-10-16",
+						messages = messages,
+						max_tokens = (body_content and body_content.max_tokens) or 4096,
+						stream = true,
+					}
+
+					-- オプショナルパラメータを追加
+					if body_content then
+						if body_content.system then
+							vertex_body.system = body_content.system
+						end
+						if body_content.temperature then
+							vertex_body.temperature = body_content.temperature
+						end
+					end
+
+					-- URLを構築
+					local url = opts.endpoint .. "/" .. opts.model .. ":streamRawPredict"
+
+					-- curlコマンドの引数を返す
+					return {
+						url = url,
+						headers = {
+							["Authorization"] = "Bearer " .. api_key,
+							["Content-Type"] = "application/json",
+						},
+						body = vim.json.encode(vertex_body),
+					}
+				end,
+				-- ストリーミングレスポンスをパース
+				parse_response_data = function(data_stream, event_state, opts)
+					if not data_stream then
+						return nil
+					end
+
+					-- SSE形式のデータをパース
+					if data_stream:match("^event:") then
+						-- イベントタイプ行はスキップ
+						return nil
+					elseif data_stream:match("^data:") then
+						-- data: から始まる行をパース
+						local json_str = data_stream:match("^data:%s*(.+)$")
+						if json_str and json_str ~= "" then
+							local ok, data = pcall(vim.json.decode, json_str)
+							if ok and data then
+								-- content_block_deltaイベントからテキストを抽出
+								if data.type == "content_block_delta" and data.delta and data.delta.text then
+									return data.delta.text
+								elseif data.type == "error" then
+									-- エラーの場合はログに出力
+									vim.notify("Vertex AI Error: " .. vim.inspect(data), vim.log.levels.ERROR)
+								end
+							end
+						end
+					end
+
+					return nil
+				end,
+				-- ストリーミングを無効にするかどうか
+				is_streaming = function(opts)
+					return opts.stream ~= false
+				end,
+			},
 		},
 	},
 	build = "make",
-	-- 依存関係の設定
 	dependencies = {
-		-- 必須の依存関係
 		"stevearc/dressing.nvim",
 		"nvim-lua/plenary.nvim",
 		"MunifTanjim/nui.nvim",
-
-		-- オプションの依存関係
-		"echasnovski/mini.pick", -- for file_selector provider mini.pick
-		"nvim-telescope/telescope.nvim", -- for file_selector provider telescope
-		"hrsh7th/nvim-cmp", -- autocompletion for avante commands and mentions
-		"ibhagwan/fzf-lua", -- for file_selector provider fzf
+		"hrsh7th/nvim-cmp",
 		"nvim-tree/nvim-web-devicons",
 		"zbirenbaum/copilot.lua",
 	},
-	config = {
-		web_search_engine = {
-			provider = "kagi", -- tavily, serpapi, searchapi, google or kagi
-		},
-	},
-	system_prompt = function()
-		local hub = require("mcphub").get_hub_instance()
-		return hub:get_active_servers_prompt()
-	end,
-	-- Using function prevents requiring mcphub before it's loaded
-	custom_tools = function()
-		return {
-			require("mcphub.extensions.avante").mcp_tool(),
-		}
-	end,
 }
